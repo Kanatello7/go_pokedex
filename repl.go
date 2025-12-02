@@ -5,12 +5,14 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/Kanatello7/pokedexcli/internal/pokeapi"
 )
 
-type cliCommand struct {
-	name        string
-	description string
-	callback    func() error
+type config struct {
+	pokeapiClient    pokeapi.Client
+	nextLocationsURL *string
+	prevLocationsURL *string
 }
 
 func cleanInput(text string) []string {
@@ -24,6 +26,16 @@ func getCommands() map[string]cliCommand {
 			description: "Displays a help message",
 			callback:    commandHelp,
 		},
+		"map": {
+			name:        "map",
+			description: "Get the next page of locations",
+			callback:    commandMapf,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Get the previous page of locations",
+			callback:    commandMapb,
+		},
 		"exit": {
 			name:        "exit",
 			description: "Exit the Pokedex",
@@ -32,7 +44,7 @@ func getCommands() map[string]cliCommand {
 	}
 }
 
-func startRepl() {
+func startRepl(config *config) {
 	reader := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print("Pokedex > ")
@@ -44,7 +56,7 @@ func startRepl() {
 		command := words[0]
 
 		if cmd, ok := getCommands()[command]; ok {
-			err := cmd.callback()
+			err := cmd.callback(config)
 			if err != nil {
 				fmt.Printf("Error: %v\n", err)
 			}
