@@ -101,6 +101,7 @@ func commandCatch(config *config, args ...string) error {
 	if catched {
 		fmt.Printf("%s was caught!\n", pokemon.Name)
 		config.caughtPokemon[pokemon.Name] = pokemon
+		fmt.Println("You may now inspect it with the inspect command.")
 	} else {
 		fmt.Printf("%s escaped!\n", name)
 	}
@@ -127,6 +128,14 @@ func commandInspect(config *config, args ...string) error {
 	fmt.Println("Types:")
 	for _, pokemon_type := range pokemon.Types {
 		fmt.Printf("  -%s\n", pokemon_type.Type.Name)
+	}
+	return nil
+}
+
+func commandPokedex(config *config, args ...string) error {
+	fmt.Println("Your Pokedex:")
+	for key := range config.caughtPokemon {
+		fmt.Printf(" - %s\n", key)
 	}
 	return nil
 }
