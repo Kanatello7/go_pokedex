@@ -41,6 +41,11 @@ func getCommands() map[string]cliCommand {
 			description: "Exit the Pokedex",
 			callback:    commandExit,
 		},
+		"explore": {
+			name:        "explore <location_name>",
+			description: "Explore a location",
+			callback:    commandExplore,
+		},
 	}
 }
 
@@ -54,9 +59,12 @@ func startRepl(config *config) {
 			continue
 		}
 		command := words[0]
-
+		args := []string{}
+		if len(words) > 1 {
+			args = words[1:]
+		}
 		if cmd, ok := getCommands()[command]; ok {
-			err := cmd.callback(config)
+			err := cmd.callback(config, args...)
 			if err != nil {
 				fmt.Printf("Error: %v\n", err)
 			}

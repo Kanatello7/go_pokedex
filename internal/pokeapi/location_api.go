@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func (c *Client) getAndCache(url string, target *RespShallowLocations) error {
+func (c *Client) getAndCache(url string, target any) error {
 	if cached, ok := c.cache.Get(url); ok {
 		return json.Unmarshal(cached, target)
 	}
@@ -41,4 +41,13 @@ func (c *Client) ListLocations(pageURL *string) (RespShallowLocations, error) {
 	var resp RespShallowLocations
 	err := c.getAndCache(url, &resp)
 	return resp, err
+}
+
+func (c *Client) GetLocation(name string) (Location, error) {
+	url := baseURL + "/location-area/" + name
+
+	var resp Location
+	err := c.getAndCache(url, &resp)
+	return resp, err
+
 }
