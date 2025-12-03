@@ -62,3 +62,8 @@ type Location struct {
 		} `json:"version_details"`
 	} `json:"pokemon_encounters"`
 }
+
+type Pokemon struct {
+	Name            string `json:"name"`
+	Base_experience int    `json:"base_experience"`
+}

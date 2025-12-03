@@ -51,3 +51,11 @@ func (c *Client) GetLocation(name string) (Location, error) {
 	return resp, err
 
 }
+
+func (c *Client) GetPokemon(name string) (Pokemon, error) {
+	url := baseURL + "/pokemon/" + name
+
+	var resp Pokemon
+	err := c.getAndCache(url, &resp)
+	return resp, err
+}
