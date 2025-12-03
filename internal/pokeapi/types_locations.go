@@ -64,6 +64,23 @@ type Location struct {
 }
 
 type Pokemon struct {
-	Name            string `json:"name"`
-	Base_experience int    `json:"base_experience"`
+	Name   string `json:"name"`
+	Height int    `json:"height"`
+	Weight int    `json:"weight"`
+	Stats  []struct {
+		Base_stat int `json:"base_stat"`
+		Effort    int `json:"effort"`
+		Stat      struct {
+			Name string `json:"name"`
+			Url  string `json:"url"`
+		}
+	} `json:"stats"`
+	Types []struct {
+		Slot int `json:"slot"`
+		Type struct {
+			Name string `json:"name"`
+			Url  string `json:"url"`
+		} `json:"type"`
+	} `json:"types"`
+	Base_experience int `json:"base_experience"`
 }
